@@ -1,0 +1,41 @@
+Treść zadania projektowego
+
+Dla wybranego zagadnienia należy (w grupach 2 osobowych):
+
+1. Identyfikacja klas, metod, związków między klasami dla wybranego obszaru dziedzinowego
+
+2. Implementacja obiektowej bazy danych dla wybranego obszaru dziedzinowego wykorzystując wybraną OBD z listy https://db-engines.com/en/ranking/object+oriented+dbms (uwaga, każda grupa używa innego oprogramowania) :
+
+* model bazy danych powinien składać się z co najmniej 6 klas;
+
+* model bazy danych powinien zawierać:
+
+o metody;
+
+o dziedziczenie;
+
+o związki;
+
+o klasy abstrakcyjne i polimorfizm;
+
+o nowo zdefiniowane typy danych;
+
+3. Wypełnienie bazy danych testowymi danymi
+
+4. Pokaz wykonania metod obiektów w terminalu 5. Umieszczenie projektu w repozytorium git na https://github.com/. Wymagana jest aktywność wszystkich uczestników grupy.
+
+6. Udokumentowanie pracy w formie sprawozdania laboratoryjnego.
+
+7. Podsumowanie wykonanej pracy w szczególności uwzględniając:
+
+· napotkane problemy i ich rozwiązania,
+
+· pomysły/idee,
+
+· ocenę środowiska.
+
+· wypełnioną tabelkę zamieszczoną na końcu tego dokumentu
+
+8. Wysłanie sprawozdania (format .docx lub pdf) razem z linkiem do repozytorium na adres mailowy prowadzącego maksymalnie 20 dni po zajęciach laboratoryjnych do godziny 23:59
+
+9. Temat maila powinien rozpoczynać się od #OBD
