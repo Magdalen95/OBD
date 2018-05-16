@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2017.2 (Build 741U_SU)" ts="2018-05-16 13:47:56">
+<Class name="Biblioteka.Bibliotekarz">
+<Super>%Persistent,%Populate,%XML.Adaptor,%ZEN.DataModel.Adaptor,Biblioteka.Osoba</Super>
+<TimeChanged>64784,44940.068491</TimeChanged>
+<TimeCreated>64784,41231.095052</TimeCreated>
+
+<Property name="DataUrodzenia">
+<Type>%Date</Type>
+<Required>1</Required>
+</Property>
+
+<Property name="LimitKsiazek">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="IloscWypozyczonych">
+<Type>%Integer</Type>
+</Property>
+
+<Method name="sprawdzWaznosc">
+<FormalSpec>osoba:Czytelnik</FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+<Implementation><![CDATA[	return osoba.WaznoscKonta
+]]></Implementation>
+</Method>
+
+<Method name="sprawdzMozliwoscWypozyczenia">
+<FormalSpec>osoba:Czytelnik</FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+<Implementation><![CDATA[
+	set liczbaDoWypozyczenia = osoba.LimitKsiazek-osoba.IloscWypozyczonych
+	if osoba.WaznoscKonta="true" 
+		if liczbaDoWypozyczenia>0
+		return "true"
+		else 
+		return "false"
+		
+	if osoba.WaznoscKonta="false"
+	return "false"
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^Biblioteka.BibliotekarzD</DataLocation>
+<DefaultData>BibliotekarzDefaultData</DefaultData>
+<IdLocation>^Biblioteka.BibliotekarzD</IdLocation>
+<IndexLocation>^Biblioteka.BibliotekarzI</IndexLocation>
+<StreamLocation>^Biblioteka.BibliotekarzS</StreamLocation>
+<Data name="BibliotekarzDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>DataUrodzenia</Value>
+</Value>
+<Value name="3">
+<Value>LimitKsiazek</Value>
+</Value>
+<Value name="4">
+<Value>IloscWypozyczonych</Value>
+</Value>
+<Value name="5">
+<Value>Nazwa</Value>
+</Value>
+<Value name="6">
+<Value>NrTelefonu</Value>
+</Value>
+<Value name="7">
+<Value>Pesel</Value>
+</Value>
+<Value name="8">
+<Value>Mail</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="Biblioteka.Czytelnik">
+<Super>%Persistent,%Populate,%XML.Adaptor,%ZEN.DataModel.Adaptor,Biblioteka.Osoba</Super>
+<TimeChanged>64784,44943.186167</TimeChanged>
+<TimeCreated>64784,40716.237128</TimeCreated>
+
+<Property name="WaznoscKonta">
+<Type>%Boolean</Type>
+<Required>1</Required>
+</Property>
+
+<Property name="LimitKsiazek">
+<Type>%Integer</Type>
+<Required>1</Required>
+</Property>
+
+<Property name="IloscWypozyczonych">
+<Type>%Integer</Type>
+</Property>
+
+<Method name="sprawdzWaznosc">
+<FormalSpec>osoba:Czytelnik</FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+<Implementation><![CDATA[	return ..WaznoscKonta
+]]></Implementation>
+</Method>
+
+<Method name="sprawdzMozliwoscWypozyczenia">
+<FormalSpec>osoba:Czytelnik</FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+<Implementation><![CDATA[
+	set liczbaDoWypozyczenia = ..LimitKsiazek-..IloscWypozyczonych
+	if ..WaznoscKonta="true" 
+		if liczbaDoWypozyczenia>0
+		return "true"
+		else 
+		return "false"
+		
+	if ..WaznoscKonta="false"
+	return "false"
+	
+	return "false"
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^Biblioteka.CzytelnikD</DataLocation>
+<DefaultData>CzytelnikDefaultData</DefaultData>
+<IdLocation>^Biblioteka.CzytelnikD</IdLocation>
+<IndexLocation>^Biblioteka.CzytelnikI</IndexLocation>
+<StreamLocation>^Biblioteka.CzytelnikS</StreamLocation>
+<Data name="CzytelnikDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>WaznoscKonta</Value>
+</Value>
+<Value name="3">
+<Value>LimitKsiazek</Value>
+</Value>
+<Value name="4">
+<Value>IloscWypozyczonych</Value>
+</Value>
+<Value name="5">
+<Value>Nazwa</Value>
+</Value>
+<Value name="6">
+<Value>NrTelefonu</Value>
+</Value>
+<Value name="7">
+<Value>Pesel</Value>
+</Value>
+<Value name="8">
+<Value>Mail</Value>
+</Value>
+<Value name="9">
+<Value>DataUrodzenia</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="Biblioteka.Osoba">
+<Abstract>1</Abstract>
+<TimeChanged>64784,44459.716414</TimeChanged>
+<TimeCreated>64784,39861.337975</TimeCreated>
+
+<Property name="Nazwa">
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="MAXLEN" value="100"/>
+</Property>
+
+<Property name="NrTelefonu">
+<Type>%String</Type>
+<Parameter name="MAXLEN" value="9"/>
+</Property>
+
+<Property name="Pesel">
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="MAXLEN" value="11"/>
+</Property>
+
+<Index name="PeselIndex">
+<Properties>Pesel</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Property name="Mail">
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="MAXLEN" value="100"/>
+</Property>
+
+<Property name="DataUrodzenia">
+<Type>%Date</Type>
+<Required>1</Required>
+</Property>
+
+<Method name="sprawdzWiek">
+<ReturnType>%Integer</ReturnType>
+<Implementation><![CDATA[
+  set rok = "year"
+  set data = ..DataUrodzenia
+  &sql(select Datediff(:rok, :data, current_date) into :diff)
+  return diff
+]]></Implementation>
+</Method>
+
+<Method name="sprawdzWaznosc">
+<FormalSpec>osoba:Osoba</FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+</Method>
+
+<Method name="sprawdzMozliwoscWypozyczenia">
+<FormalSpec>osoba:Osoba</FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+</Method>
+</Class>
+
+
+
+
+<Project name="biblioteka" LastModified="2018-05-16 13:47:56.098685">
+  <Items>
+    <ProjectItem name="Biblioteka" type="PKG"></ProjectItem>
+  </Items>
+</Project>
+</Export>
