@@ -1,11 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2017.2 (Build 741U_SU)" ts="2018-05-16 16:19:54">
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2017.2 (Build 741U_SU)" ts="2018-05-16 18:58:47">
+<Class name="Biblioteka.Audiobook">
+<Super>%Persistent,%Populate,%XML.Adaptor,%ZEN.DataModel.Adaptor,Biblioteka.Ksiazka</Super>
+<TimeChanged>64784,60525.795073</TimeChanged>
+<TimeCreated>64784,59303.936878</TimeCreated>
+
+<Property name="Format">
+<Type>%String</Type>
+<Required>1</Required>
+</Property>
+
+<Property name="Lektor">
+<Type>%String</Type>
+<Required>1</Required>
+</Property>
+
+<Method name="dajOpis">
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	set Opis = "Tytuł: " _ ..Tytul_ " Autor:  " _..Autor _ " Lektor: "_..Lektor _" Format: " _..Format _ " Gatunek: " _ ..Gatunek _ " Dostępne: " _ ..IloscDostepnych _ " Wszystkie: "_ ..IloscEgzemplarzy
+	return Opis
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^Biblioteka.AudiobookD</DataLocation>
+<DefaultData>AudiobookDefaultData</DefaultData>
+<IdLocation>^Biblioteka.AudiobookD</IdLocation>
+<IndexLocation>^Biblioteka.AudiobookI</IndexLocation>
+<StreamLocation>^Biblioteka.AudiobookS</StreamLocation>
+<Data name="AudiobookDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>Format</Value>
+</Value>
+<Value name="3">
+<Value>Autor</Value>
+</Value>
+<Value name="4">
+<Value>IloscEgzemplarzy</Value>
+</Value>
+<Value name="5">
+<Value>IloscDostepnych</Value>
+</Value>
+<Value name="6">
+<Value>Gatunek</Value>
+</Value>
+<Value name="7">
+<Value>IdKsiazka</Value>
+</Value>
+<Value name="8">
+<Value>Lektor</Value>
+</Value>
+<Value name="9">
+<Value>Tytul</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
 <Class name="Biblioteka.Bibliotekarz">
 <Super>%Persistent,%Populate,%XML.Adaptor,%ZEN.DataModel.Adaptor,Biblioteka.Osoba</Super>
-<TimeChanged>64784,44940.068491</TimeChanged>
+<TimeChanged>64784,66315.714633</TimeChanged>
 <TimeCreated>64784,41231.095052</TimeCreated>
 
-<Property name="DataUrodzenia">
+<Property name="DataZatrudnienia">
 <Type>%Date</Type>
 <Required>1</Required>
 </Property>
@@ -30,13 +93,17 @@
 <ReturnType>%Boolean</ReturnType>
 <Implementation><![CDATA[
 	set liczbaDoWypozyczenia = osoba.LimitKsiazek-osoba.IloscWypozyczonych
-	if osoba.WaznoscKonta="true" 
-		if liczbaDoWypozyczenia>0
-		return "true"
-		else 
+	If osoba.WaznoscKonta="true"{
+		if liczbaDoWypozyczenia>0{
+			return "true"
+	}
+		Else {
+			return "false"
+			}
+	}
+	Else {
 		return "false"
-		
-	if osoba.WaznoscKonta="false"
+	}
 	return "false"
 ]]></Implementation>
 </Method>
@@ -73,6 +140,9 @@
 <Value name="8">
 <Value>Mail</Value>
 </Value>
+<Value name="9">
+<Value>DataZatrudnienia</Value>
+</Value>
 </Data>
 </Storage>
 </Class>
@@ -80,7 +150,7 @@
 
 <Class name="Biblioteka.Czytelnik">
 <Super>%Persistent,%Populate,%XML.Adaptor,%ZEN.DataModel.Adaptor,Biblioteka.Osoba</Super>
-<TimeChanged>64784,44943.186167</TimeChanged>
+<TimeChanged>64784,63890.120646</TimeChanged>
 <TimeCreated>64784,40716.237128</TimeCreated>
 
 <Property name="WaznoscKonta">
@@ -109,15 +179,17 @@
 <ReturnType>%Boolean</ReturnType>
 <Implementation><![CDATA[
 	set liczbaDoWypozyczenia = ..LimitKsiazek-..IloscWypozyczonych
-	if ..WaznoscKonta="true" 
-		if liczbaDoWypozyczenia>0
-		return "true"
-		else 
+	If ..WaznoscKonta="true"{
+		if liczbaDoWypozyczenia>0{
+			return "true"
+	}
+		Else {
+			return "false"
+			}
+	}
+	Else {
 		return "false"
-		
-	if ..WaznoscKonta="false"
-	return "false"
-	
+	}
 	return "false"
 ]]></Implementation>
 </Method>
@@ -156,6 +228,61 @@
 </Value>
 <Value name="9">
 <Value>DataUrodzenia</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="Biblioteka.Ebook">
+<Super>%Persistent,%Populate,%XML.Adaptor,%ZEN.DataModel.Adaptor,Biblioteka.Ksiazka</Super>
+<TimeChanged>64784,60524.780948</TimeChanged>
+<TimeCreated>64784,59302.950314</TimeCreated>
+
+<Property name="Format">
+<Type>%String</Type>
+<Required>1</Required>
+</Property>
+
+<Method name="dajOpis">
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	set Opis ="Tytuł: " _ ..Tytul_ " Autor:  " _..Autor _ " Format: " _..Format _ " Gatunek: " _ ..Gatunek _ " Dostępne: " _ ..IloscDostepnych _ " Wszystkie: "_ ..IloscEgzemplarzy
+	return Opis
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^Biblioteka.EbookD</DataLocation>
+<DefaultData>EbookDefaultData</DefaultData>
+<IdLocation>^Biblioteka.EbookD</IdLocation>
+<IndexLocation>^Biblioteka.EbookI</IndexLocation>
+<StreamLocation>^Biblioteka.EbookS</StreamLocation>
+<Data name="EbookDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>Format</Value>
+</Value>
+<Value name="3">
+<Value>Autor</Value>
+</Value>
+<Value name="4">
+<Value>IloscEgzemplarzy</Value>
+</Value>
+<Value name="5">
+<Value>IloscDostepnych</Value>
+</Value>
+<Value name="6">
+<Value>Gatunek</Value>
+</Value>
+<Value name="7">
+<Value>IdKsiazka</Value>
+</Value>
+<Value name="8">
+<Value>Tytul</Value>
 </Value>
 </Data>
 </Storage>
@@ -206,9 +333,64 @@
 </Class>
 
 
+<Class name="Biblioteka.KsiazkaPapierowa">
+<Super>%Persistent,%Populate,%XML.Adaptor,%ZEN.DataModel.Adaptor,Biblioteka.Ksiazka</Super>
+<TimeChanged>64784,60525.333966</TimeChanged>
+<TimeCreated>64784,59303.391065</TimeCreated>
+
+<Property name="TypOkladki">
+<Type>%String</Type>
+<Required>1</Required>
+</Property>
+
+<Method name="dajOpis">
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	set Opis = "Tytuł: " _ ..Tytul_ " Autor:  " _..Autor _ " Typ okładki: " _..TypOkladki _ " Gatunek: " _ ..Gatunek _ " Dostępne: " _ ..IloscDostepnych _ " Wszystkie: "_ ..IloscEgzemplarzy
+	return Opis
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^Biblioteka.KsiazkaPapierowaD</DataLocation>
+<DefaultData>KsiazkaPapierowaDefaultData</DefaultData>
+<IdLocation>^Biblioteka.KsiazkaPapierowaD</IdLocation>
+<IndexLocation>^Biblioteka.KsiazkaPapierowaI</IndexLocation>
+<StreamLocation>^Biblioteka.KsiazkaPapierowaS</StreamLocation>
+<Data name="KsiazkaPapierowaDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>TypOkladki</Value>
+</Value>
+<Value name="3">
+<Value>Autor</Value>
+</Value>
+<Value name="4">
+<Value>IloscEgzemplarzy</Value>
+</Value>
+<Value name="5">
+<Value>IloscDostepnych</Value>
+</Value>
+<Value name="6">
+<Value>Gatunek</Value>
+</Value>
+<Value name="7">
+<Value>IdKsiazka</Value>
+</Value>
+<Value name="8">
+<Value>Tytul</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
 <Class name="Biblioteka.Osoba">
 <Abstract>1</Abstract>
-<TimeChanged>64784,51166.347008</TimeChanged>
+<TimeChanged>64784,68189.230518</TimeChanged>
 <TimeCreated>64784,39861.337975</TimeCreated>
 
 <Property name="Nazwa">
@@ -248,10 +430,11 @@
 <FormalSpec>osoba:Osoba</FormalSpec>
 <ReturnType>%Integer</ReturnType>
 <Implementation><![CDATA[
-  set rok = "year"
   set data = osoba.DataUrodzenia
-  &sql(select Datediff(:rok, :data, current_date) into :diff)
-  return diff
+  SET now = $HOROLOG
+  set odbc =$ZDATE(now,3)
+  set wiek = (odbc)-data
+  return wiek
 ]]></Implementation>
 </Method>
 
@@ -269,7 +452,7 @@
 
 
 
-<Project name="biblioteka" LastModified="2018-05-16 14:49:17.726502">
+<Project name="biblioteka" LastModified="2018-05-16 16:28:25.59616">
   <Items>
     <ProjectItem name="Biblioteka" type="PKG"></ProjectItem>
   </Items>
@@ -278,7 +461,7 @@
 
 <Class name="Biblioteka.Wypozyczenie">
 <Super>%Persistent,%Populate,%XML.Adaptor,%ZEN.DataModel.Adaptor</Super>
-<TimeChanged>64784,53583.498187</TimeChanged>
+<TimeChanged>64784,65221.257083</TimeChanged>
 <TimeCreated>64784,52236.753845</TimeCreated>
 
 <Property name="DataWypozyczenia">
@@ -334,18 +517,24 @@
 <FormalSpec>Bibliotekarz:Osoba,Ksiazka:Ksiazka,Czytelnik:Osoba</FormalSpec>
 <ReturnType>%String</ReturnType>
 <Implementation><![CDATA[
-	if Ksiazka.IloscDostepnych>0
-	
-	set ..PeselBibliotekarz = Bibliotekarz.Pesel
-	set ..PeselCzytelnik = Czytelnik.Pesel
-	set ..IdKsiazki = Ksiazka.IdKsiazka
-	&sql(select  current_date into :DataWyp)
-	set ..DataWypozyczenia = DataWyp
-	set ..Stan = "true"
-	set Ksiazka.IloscDostepnych = Ksiazka.IloscDostepnych-1
-	 return "Wypozyczono"
-	else 
-	return "Nie mozna wypozyczyc"
+ If Czytelnik.sprawdzMozliwoscWypozyczenia(Czytelnik)="true"{
+	If Ksiazka.IloscDostepnych>0{
+		set ..PeselBibliotekarz = Bibliotekarz.Pesel
+		set ..PeselCzytelnik = Czytelnik.Pesel
+		set ..IdKsiazki = Ksiazka.IdKsiazka
+		SET now = $HOROLOG
+		set odbc =$ZDATE(now,-1)
+		set ..DataWypozyczenia = odbc
+		set ..Stan = "true"
+		set Ksiazka.IloscDostepnych = Ksiazka.IloscDostepnych-1
+		set Czytelnik.IloscWypozyczonych = Czytelnik.IloscWypozyczonych + 1
+	 	return "Wypozyczono"
+	}
+	Else {
+		return "Nie mozna wypozyczyc"
+	}
+	}Else{
+		return "Nie mozna wypozyczyc"}
 ]]></Implementation>
 </Method>
 
@@ -355,10 +544,43 @@
 <Implementation><![CDATA[
 	set ..Stan = "false"
 	set Ksiazka.IloscDostepnych = Ksiazka.IloscDostepnych+1
-	&sql(select  current_date into :DataOdd)
-	set ..DataOddania = DataOdd
+	SET now = $HOROLOG
+	set odbc =$ZDATE(now,-1)
+	set ..DataOddania = odbc
 	return "Zwrocono"
 ]]></Implementation>
 </Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^Biblioteka.WypozyczenieD</DataLocation>
+<DefaultData>WypozyczenieDefaultData</DefaultData>
+<IdLocation>^Biblioteka.WypozyczenieD</IdLocation>
+<IndexLocation>^Biblioteka.WypozyczenieI</IndexLocation>
+<StreamLocation>^Biblioteka.WypozyczenieS</StreamLocation>
+<Data name="WypozyczenieDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>DataWypozyczenia</Value>
+</Value>
+<Value name="3">
+<Value>DataOddania</Value>
+</Value>
+<Value name="4">
+<Value>Stan</Value>
+</Value>
+<Value name="5">
+<Value>IdKsiazki</Value>
+</Value>
+<Value name="6">
+<Value>PeselCzytelnik</Value>
+</Value>
+<Value name="7">
+<Value>PeselBibliotekarz</Value>
+</Value>
+</Data>
+</Storage>
 </Class>
 </Export>
