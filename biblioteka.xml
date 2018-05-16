@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2017.2 (Build 741U_SU)" ts="2018-05-16 13:47:56">
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2017.2 (Build 741U_SU)" ts="2018-05-16 16:19:54">
 <Class name="Biblioteka.Bibliotekarz">
 <Super>%Persistent,%Populate,%XML.Adaptor,%ZEN.DataModel.Adaptor,Biblioteka.Osoba</Super>
 <TimeChanged>64784,44940.068491</TimeChanged>
@@ -162,9 +162,53 @@
 </Class>
 
 
+<Class name="Biblioteka.Ksiazka">
+<Abstract>1</Abstract>
+<TimeChanged>64784,58778.364695</TimeChanged>
+<TimeCreated>64784,53352.840353</TimeCreated>
+
+<Property name="Tytul">
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="MAXLEN" value="150"/>
+</Property>
+
+<Property name="Autor">
+<Type>%String</Type>
+<Parameter name="MAXLEN" value="100"/>
+</Property>
+
+<Property name="IloscEgzemplarzy">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="IloscDostepnych">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="Gatunek">
+<Type>%String</Type>
+</Property>
+
+<Method name="dajOpis">
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Property name="IdKsiazka">
+<Type>%Integer</Type>
+<Required>1</Required>
+</Property>
+
+<Index name="IdKsiazkaIndex">
+<Properties>IdKsiazka</Properties>
+<Unique>1</Unique>
+</Index>
+</Class>
+
+
 <Class name="Biblioteka.Osoba">
 <Abstract>1</Abstract>
-<TimeChanged>64784,44459.716414</TimeChanged>
+<TimeChanged>64784,51166.347008</TimeChanged>
 <TimeCreated>64784,39861.337975</TimeCreated>
 
 <Property name="Nazwa">
@@ -201,10 +245,11 @@
 </Property>
 
 <Method name="sprawdzWiek">
+<FormalSpec>osoba:Osoba</FormalSpec>
 <ReturnType>%Integer</ReturnType>
 <Implementation><![CDATA[
   set rok = "year"
-  set data = ..DataUrodzenia
+  set data = osoba.DataUrodzenia
   &sql(select Datediff(:rok, :data, current_date) into :diff)
   return diff
 ]]></Implementation>
@@ -224,9 +269,96 @@
 
 
 
-<Project name="biblioteka" LastModified="2018-05-16 13:47:56.098685">
+<Project name="biblioteka" LastModified="2018-05-16 14:49:17.726502">
   <Items>
     <ProjectItem name="Biblioteka" type="PKG"></ProjectItem>
   </Items>
 </Project>
+
+
+<Class name="Biblioteka.Wypozyczenie">
+<Super>%Persistent,%Populate,%XML.Adaptor,%ZEN.DataModel.Adaptor</Super>
+<TimeChanged>64784,53583.498187</TimeChanged>
+<TimeCreated>64784,52236.753845</TimeCreated>
+
+<Property name="DataWypozyczenia">
+<Type>%Date</Type>
+<Required>1</Required>
+</Property>
+
+<Property name="DataOddania">
+<Type>%Date</Type>
+</Property>
+
+<Property name="Stan">
+<Type>%Boolean</Type>
+<Required>1</Required>
+</Property>
+
+<Property name="IdKsiazki">
+<Type>%Integer</Type>
+<Required>1</Required>
+</Property>
+
+<Property name="PeselCzytelnik">
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="MAXLEN" value="11"/>
+</Property>
+
+<Property name="PeselBibliotekarz">
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="MAXLEN" value="11"/>
+</Property>
+
+<ForeignKey name="IdKsiazkiFK">
+<Properties>IdKsiazki</Properties>
+<ReferencedClass>Biblioteka.Ksiazka</ReferencedClass>
+<ReferencedKey>IdKsiazkaIndex</ReferencedKey>
+</ForeignKey>
+
+<ForeignKey name="CzytelnikPesel">
+<Properties>PeselCzytelnik</Properties>
+<ReferencedClass>Biblioteka.Osoba</ReferencedClass>
+<ReferencedKey>PeselIndex</ReferencedKey>
+</ForeignKey>
+
+<ForeignKey name="BibliotekarzPesel">
+<Properties>PeselBibliotekarz</Properties>
+<ReferencedClass>Biblioteka.Osoba</ReferencedClass>
+<ReferencedKey>PeselIndex</ReferencedKey>
+</ForeignKey>
+
+<Method name="Wypozycz">
+<FormalSpec>Bibliotekarz:Osoba,Ksiazka:Ksiazka,Czytelnik:Osoba</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	if Ksiazka.IloscDostepnych>0
+	
+	set ..PeselBibliotekarz = Bibliotekarz.Pesel
+	set ..PeselCzytelnik = Czytelnik.Pesel
+	set ..IdKsiazki = Ksiazka.IdKsiazka
+	&sql(select  current_date into :DataWyp)
+	set ..DataWypozyczenia = DataWyp
+	set ..Stan = "true"
+	set Ksiazka.IloscDostepnych = Ksiazka.IloscDostepnych-1
+	 return "Wypozyczono"
+	else 
+	return "Nie mozna wypozyczyc"
+]]></Implementation>
+</Method>
+
+<Method name="Zwrot">
+<FormalSpec>Bibliotekarz:Osoba,Ksiazka:Ksiazka,Czytelnik:Osoba</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	set ..Stan = "false"
+	set Ksiazka.IloscDostepnych = Ksiazka.IloscDostepnych+1
+	&sql(select  current_date into :DataOdd)
+	set ..DataOddania = DataOdd
+	return "Zwrocono"
+]]></Implementation>
+</Method>
+</Class>
 </Export>
