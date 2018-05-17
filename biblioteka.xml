@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2017.2 (Build 741U_SU)" ts="2018-05-16 18:58:47">
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2017.2 (Build 741U_SU)" ts="2018-05-16 19:18:17">
 <Class name="Biblioteka.Audiobook">
 <Super>%Persistent,%Populate,%XML.Adaptor,%ZEN.DataModel.Adaptor,Biblioteka.Ksiazka</Super>
 <TimeChanged>64784,60525.795073</TimeChanged>
@@ -461,7 +461,7 @@
 
 <Class name="Biblioteka.Wypozyczenie">
 <Super>%Persistent,%Populate,%XML.Adaptor,%ZEN.DataModel.Adaptor</Super>
-<TimeChanged>64784,65221.257083</TimeChanged>
+<TimeChanged>64784,68702.283764</TimeChanged>
 <TimeCreated>64784,52236.753845</TimeCreated>
 
 <Property name="DataWypozyczenia">
@@ -544,6 +544,7 @@
 <Implementation><![CDATA[
 	set ..Stan = "false"
 	set Ksiazka.IloscDostepnych = Ksiazka.IloscDostepnych+1
+	set Czytelnik.IloscWypozyczonych = Czytelnik.IloscWypozyczonych - 1
 	SET now = $HOROLOG
 	set odbc =$ZDATE(now,-1)
 	set ..DataOddania = odbc
